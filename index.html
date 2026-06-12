@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Der Bericht – Erklärung und Quiz</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #202335;
+      --blue: #2f6fed;
+      --lightblue: #e5efff;
+      --green: #1f9d55;
+      --red: #d64545;
+      --yellow: #fff3c4;
+      --border: #d7deea;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2f6fed, #75afff);
+      color: white;
+      padding: 34px 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 2.2rem;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    main {
+      max-width: 950px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+
+    .page {
+      display: none;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 20px rgba(40, 60, 100, 0.08);
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    h2 {
+      color: var(--blue);
+      margin-top: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .box {
+      background: #f8fbff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 15px;
+    }
+
+    .box strong {
+      color: var(--blue);
+    }
+
+    .notice {
+      background: var(--yellow);
+      border-left: 6px solid #f0b429;
+      padding: 14px;
+      border-radius: 10px;
+      margin: 16px 0;
+    }
+
+    .question-card {
+      background: #fbfcff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .excerpt {
+      background: white;
+      border-left: 5px solid var(--blue);
+      padding: 12px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-style: italic;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+      padding: 11px;
+      border-radius: 10px;
+      background: white;
+      border: 1px solid #e1e7f2;
+      cursor: pointer;
+    }
+
+    label:hover {
+      background: var(--lightblue);
+    }
+
+    input[type="radio"] {
+      margin-right: 8px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 16px;
+      background: var(--blue);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button.secondary {
+      background: #6b7280;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 14px;
+      padding: 13px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #eef6ff;
+    }
+
+    .correct {
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .wrong {
+      color: var(--red);
+      font-weight: bold;
+    }
+
+    .progress {
+      margin-bottom: 14px;
+      font-weight: bold;
+      color: #596070;
+    }
+
+    .bar {
+      height: 12px;
+      background: #e3e8f2;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .bar-inner {
+      height: 100%;
+      width: 0%;
+      background: var(--blue);
+      transition: width 0.3s;
+    }
+
+    #resultBox {
+      font-size: 1.15rem;
+      padding: 16px;
+      border-radius: 14px;
+      background: #eef6ff;
+      margin-top: 14px;
+    }
+
+    ul {
+      padding-left: 22px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px;
+      color: #667085;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Der Bericht</h1>
+    <p>Erklärung, Übungen und Quiz für den Deutschunterricht</p>
+  </header>
+
+  <main>
+    <section class="page active" id="page0">
+      <h2>Erklärseite: Was ist ein Bericht?</h2>
+      <p>
+        Ein Bericht ist ein sachlicher Text. Er informiert klar und genau darüber,
+        was passiert ist. Dabei werden keine Gefühle, keine eigene Meinung und keine spannenden Ausschmückungen verwendet.
+      </p>
+
+      <div class="notice">
+        <strong>Merksatz:</strong> Ein Bericht ist sachlich, objektiv, neutral und chronologisch geschrieben.
+      </div>
+
+      <h2>Aufbau eines Berichts</h2>
+      <div class="grid">
+        <div class="box">
+          <h3>1. Einleitung</h3>
+          <p>In der Einleitung stehen die wichtigsten Informationen: Wer? Was? Wann? Wo?</p>
+        </div>
+        <div class="box">
+          <h3>2. Hauptteil</h3>
+          <p>Im Hauptteil wird der Ablauf genauer beschrieben. Er steht in der richtigen Reihenfolge.</p>
+        </div>
+        <div class="box">
+          <h3>3. Schluss</h3>
+          <p>Im Schluss stehen die Folgen, zum Beispiel Schäden, Verletzungen oder Maßnahmen.</p>
+        </div>
+      </div>
+
+      <h2>Merkmale eines Berichts</h2>
+      <div class="grid">
+        <div class="box"><strong>Sachlich:</strong> Es werden nur wichtige Fakten genannt.</div>
+        <div class="box"><strong>Objektiv:</strong> Die eigene Meinung bleibt weg.</div>
+        <div class="box"><strong>Chronologisch:</strong> Alles wird in der richtigen zeitlichen Reihenfolge erzählt.</div>
+        <div class="box"><strong>Neutral:</strong> Niemand wird bewertet, beleidigt oder beschuldigt.</div>
+      </div>
+
+      <h2>W-Fragen</h2>
+      <p>Ein guter Bericht beantwortet möglichst viele wichtige W-Fragen:</p>
+      <ul>
+        <li>Wer war beteiligt?</li>
+        <li>Was ist passiert?</li>
+        <li>Wann ist es passiert?</li>
+        <li>Wo ist es passiert?</li>
+        <li>Wie ist es passiert?</li>
+        <li>Warum ist es passiert?</li>
+        <li>Welche Folgen gab es?</li>
+      </ul>
+
+      <div class="buttons">
+        <span></span>
+        <button onclick="nextPage()">Mit dem Quiz starten</button>
+      </div>
+    </section>
+
+    <section class="page" id="quizPage">
+      <div class="progress" id="progressText"></div>
+      <div class="bar"><div class="bar-inner" id="barInner"></div></div>
+
+      <h2 id="questionTitle"></h2>
+      <div class="question-card">
+        <p id="questionText"></p>
+        <div id="excerptBox" class="excerpt" style="display:none;"></div>
+        <div id="answers"></div>
+        <button onclick="checkAnswer()" id="checkBtn">Antwort prüfen</button>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <div class="buttons">
+        <button class="secondary" onclick="previousQuestion()" id="prevBtn">Zurück</button>
+        <button onclick="nextQuestion()" id="nextBtn">Weiter</button>
+      </div>
+    </section>
+
+    <section class="page" id="resultPage">
+      <h2>Auswertung</h2>
+      <div id="resultBox"></div>
+      <div class="buttons">
+        <button class="secondary" onclick="restartQuiz()">Quiz neu starten</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Erstellt für den Deutschunterricht – Thema: Bericht
+  </footer>
+
+  <script>
+    const questions = [
+      {
+        title: "Frage 1",
+        text: "Was ist ein Bericht?",
+        answers: [
+          "Ein Text, der sachlich über ein Ereignis informiert.",
+          "Eine spannende Fantasiegeschichte.",
+          "Ein Text, in dem man vor allem seine Meinung sagt."
+        ],
+        correct: 0,
+        feedback: "Ein Bericht informiert sachlich und genau über ein Ereignis."
+      },
+      {
+        title: "Frage 2",
+        text: "Welche drei Teile gehören zum Aufbau eines Berichts?",
+        answers: [
+          "Einleitung, Hauptteil, Schluss",
+          "Überschrift, Witz, Meinung",
+          "Anfang, Spannung, Happy End"
+        ],
+        correct: 0,
+        feedback: "Ein Bericht besteht aus Einleitung, Hauptteil und Schluss."
+      },
+      {
+        title: "Frage 3",
+        text: "Was bedeutet „chronologisch“?",
+        answers: [
+          "In der richtigen zeitlichen Reihenfolge",
+          "Mit vielen Gefühlen",
+          "Besonders kurz geschrieben"
+        ],
+        correct: 0,
+        feedback: "Chronologisch bedeutet: Die Ereignisse werden in der richtigen Reihenfolge erzählt."
+      },
+      {
+        title: "Frage 4",
+        text: "Welche Aussage passt zu einem sachlichen Bericht?",
+        excerpt: "Am Montag um 9:30 Uhr ereignete sich auf dem Schulhof ein Unfall.",
+        answers: [
+          "Ja, der Satz ist sachlich und nennt wichtige Informationen.",
+          "Nein, der Satz enthält zu viele Gefühle.",
+          "Nein, der Satz ist eine eigene Meinung."
+        ],
+        correct: 0,
+        feedback: "Der Satz ist sachlich und nennt Zeit, Ort und Ereignis."
+      },
+      {
+        title: "Frage 5",
+        text: "Erfüllt dieser Ausschnitt die Merkmale eines Berichts?",
+        excerpt: "Ich fand den Diebstahl richtig schlimm, und der Junge war bestimmt total frech.",
+        answers: [
+          "Ja, weil der Text spannend ist.",
+          "Nein, weil eine Meinung und eine Bewertung enthalten sind.",
+          "Ja, weil der Text viele Gefühle zeigt."
+        ],
+        correct: 1,
+        feedback: "In einem Bericht dürfen keine eigene Meinung und keine Bewertung stehen."
+      },
+      {
+        title: "Frage 6",
+        text: "Welche Information gehört meistens in die Einleitung?",
+        answers: [
+          "Wer beteiligt war, was passiert ist, wann und wo es passiert ist.",
+          "Die persönliche Meinung des Schreibers.",
+          "Eine erfundene spannende Überschrift."
+        ],
+        correct: 0,
+        feedback: "Die Einleitung beantwortet wichtige W-Fragen wie Wer, Was, Wann und Wo."
+      },
+      {
+        title: "Frage 7",
+        text: "Ist dieser Ausschnitt chronologisch richtig?",
+        excerpt: "Zuerst nahm die Polizei den Unfall auf. Danach kam es zum Zusammenstoß.",
+        answers: [
+          "Ja, die Reihenfolge ist richtig.",
+          "Nein, die Reihenfolge ist nicht logisch.",
+          "Ja, weil Polizei erwähnt wird."
+        ],
+        correct: 1,
+        feedback: "Die Reihenfolge ist falsch. Der Zusammenstoß muss vor der Unfallaufnahme passieren."
+      },
+      {
+        title: "Frage 8",
+        text: "Welcher Satz ist neutral formuliert?",
+        answers: [
+          "Der Fahrer war total rücksichtslos.",
+          "Der Fahrer fuhr über die Kreuzung.",
+          "Ich finde, der Fahrer hat sich unmöglich verhalten."
+        ],
+        correct: 1,
+        feedback: "Der Satz „Der Fahrer fuhr über die Kreuzung“ ist neutral und ohne Bewertung."
+      },
+      {
+        title: "Frage 9",
+        text: "Erfüllt dieser Ausschnitt die Anforderungen an einen Bericht?",
+        excerpt: "Nach dem Vorfall wurde die Marktleitung informiert. Anschließend wurde die Polizei gerufen.",
+        answers: [
+          "Ja, der Ausschnitt ist sachlich und beschreibt die Folgen.",
+          "Nein, der Ausschnitt enthält Umgangssprache.",
+          "Nein, der Ausschnitt ist eine Fantasiegeschichte."
+        ],
+        correct: 0,
+        feedback: "Der Ausschnitt ist sachlich, neutral und beschreibt Folgen beziehungsweise Maßnahmen."
+      },
+      {
+        title: "Frage 10",
+        text: "Welche W-Frage wird hier beantwortet?",
+        excerpt: "Der Vorfall ereignete sich in einem Supermarkt in der Bahnhofstraße.",
+        answers: [
+          "Wo?",
+          "Warum?",
+          "Welche Folgen?"
+        ],
+        correct: 0,
+        feedback: "Der Satz beantwortet die Frage: Wo ist es passiert?"
+      },
+      {
+        title: "Frage 11",
+        text: "Welche Formulierung passt nicht in einen Bericht?",
+        answers: [
+          "Der Unfall ereignete sich gegen 14 Uhr.",
+          "Anschließend wurden die Beteiligten befragt.",
+          "Das war natürlich voll peinlich."
+        ],
+        correct: 2,
+        feedback: "„Voll peinlich“ ist Umgangssprache und eine Wertung. Das passt nicht in einen Bericht."
+      },
+      {
+        title: "Frage 12",
+        text: "Welche Information gehört eher in den Schluss eines Berichts?",
+        answers: [
+          "Welche Folgen der Vorfall hatte.",
+          "Welche Gefühle der Schreiber hatte.",
+          "Eine erfundene spannende Wendung."
+        ],
+        correct: 0,
+        feedback: "Im Schluss stehen häufig die Folgen, zum Beispiel Schaden, Verletzungen oder Maßnahmen."
+      },
+      {
+        title: "Frage 13",
+        text: "Bewerte den Ausschnitt.",
+        excerpt: "Am Dienstag, dem 4. Juni, betrat eine Person gegen 16 Uhr den Supermarkt. Danach legte sie mehrere Waren in eine Tasche.",
+        answers: [
+          "Geeignet, weil der Ausschnitt sachlich und zeitlich geordnet ist.",
+          "Nicht geeignet, weil eine eigene Meinung vorkommt.",
+          "Nicht geeignet, weil keine Fakten genannt werden."
+        ],
+        correct: 0,
+        feedback: "Der Ausschnitt nennt Fakten und beschreibt den Ablauf in richtiger Reihenfolge."
+      },
+      {
+        title: "Frage 14",
+        text: "Was bedeutet „objektiv“ bei einem Bericht?",
+        answers: [
+          "Man schreibt ohne eigene Meinung.",
+          "Man schreibt besonders lustig.",
+          "Man schreibt absichtlich ungenau."
+        ],
+        correct: 0,
+        feedback: "Objektiv bedeutet, dass die eigene Meinung nicht in den Bericht gehört."
+      },
+      {
+        title: "Frage 15",
+        text: "Welche Antwort beschreibt einen guten Bericht am besten?",
+        answers: [
+          "Sachlich, neutral, genau und chronologisch.",
+          "Lustig, spannend, persönlich und ausgeschmückt.",
+          "Kurz, ungenau, emotional und erfunden."
+        ],
+        correct: 0,
+        feedback: "Ein guter Bericht ist sachlich, neutral, genau und chronologisch."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = new Array(questions.length).fill(false);
+    let correctGiven = new Array(questions.length).fill(false);
+
+    function showPage(id) {
+      document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    function nextPage() {
+      showPage("quizPage");
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+
+      document.getElementById("progressText").textContent =
+        "Frage " + (currentQuestion + 1) + " von " + questions.length;
+
+      document.getElementById("barInner").style.width =
+        ((currentQuestion + 1) / questions.length * 100) + "%";
+
+      document.getElementById("questionTitle").textContent = q.title;
+      document.getElementById("questionText").textContent = q.text;
+
+      const excerptBox = document.getElementById("excerptBox");
+      if (q.excerpt) {
+        excerptBox.style.display = "block";
+        excerptBox.textContent = q.excerpt;
+      } else {
+        excerptBox.style.display = "none";
+      }
+
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+
+      q.answers.forEach((answer, index) => {
+        const label = document.createElement("label");
+        label.innerHTML = '<input type="radio" name="answer" value="' + index + '"> ' + answer;
+        answersDiv.appendChild(label);
+      });
+
+      document.getElementById("feedback").style.display = "none";
+      document.getElementById("feedback").innerHTML = "";
+      document.getElementById("prevBtn").disabled = currentQuestion === 0;
+      document.getElementById("nextBtn").textContent =
+        currentQuestion === questions.length - 1 ? "Auswertung anzeigen" : "Weiter";
+    }
+
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      const feedback = document.getElementById("feedback");
+
+      if (!selected) {
+        feedback.style.display = "block";
+        feedback.innerHTML = '<span class="wrong">Bitte wähle zuerst eine Antwort aus.</span>';
+        return;
+      }
+
+      const selectedValue = Number(selected.value);
+      const q = questions[currentQuestion];
+
+      if (!answered[currentQuestion]) {
+        answered[currentQuestion] = true;
+        if (selectedValue === q.correct) {
+          score++;
+          correctGiven[currentQuestion] = true;
+        }
+      }
+
+      feedback.style.display = "block";
+      if (selectedValue === q.correct) {
+        feedback.innerHTML = '<span class="correct">Richtig!</span> ' + q.feedback;
+      } else {
+        feedback.innerHTML = '<span class="wrong">Nicht ganz richtig.</span> ' + q.feedback;
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    }
+
+    function showResult() {
+      showPage("resultPage");
+      const resultBox = document.getElementById("resultBox");
+
+      let message = "";
+      if (score === questions.length) {
+        message = "Super! Du hast alle Fragen richtig beantwortet.";
+      } else if (score >= 11) {
+        message = "Sehr gut! Du kennst dich mit dem Bericht schon gut aus.";
+      } else if (score >= 8) {
+        message = "Gut gemacht! Wiederhole noch einmal die Merkmale und den Aufbau.";
+      } else {
+        message = "Übe am besten noch einmal die Erklärseite und starte das Quiz danach neu.";
+      }
+
+      resultBox.innerHTML =
+        "<strong>Dein Ergebnis: " + score + " von " + questions.length + " Punkten.</strong><br>" + message;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      answered = new Array(questions.length).fill(false);
+      correctGiven = new Array(questions.length).fill(false);
+      showPage("page0");
+    }
+  </script>
+</body>
+</html>
